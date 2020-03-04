@@ -38,7 +38,6 @@ class Cropper():
             cv.rectangle(self.img, (self.ix, self.iy), (x, y), self.GREEN, 2)
             self.rect = (min(self.ix, x), min(self.iy, y), abs(self.ix - x), abs(self.iy - y))
             self.rect_or_mask = 0
-            self.ex, self.ey = x,y
 
     def process_image(self, image):
 
@@ -57,6 +56,7 @@ class Cropper():
             if k == 27:         # esc to exit
                 break
         
-        return image[self.iy:self.ey, self.ix:self.ex], (min(self.ix, self.ex), min(self.iy, self.ey),
-        abs(self.ix - self.ex), abs(self.iy - self.ey))
+        # rect = (x1,y1,x2,y2)
+        self.rect = (self.rect[0], self.rect[1], self.rect[0]+self.rect[2], self.rect[1]+self.rect[3])
+        return image[self.rect[1]:self.rect[3], self.rect[0]:self.rect[2]], self.rect
 
